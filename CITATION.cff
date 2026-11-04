@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this code in teaching or research, please cite the book it accompanies."
+title: "Claude Code CLI: The Reference Book and Cheat Sheet: companion code"
+type: software
+license: MIT
+authors:
+  - family-names: Sankhala
+    given-names: Vikram Singh
+    affiliation: Solinexta AI
+version: "2.0.0"
+date-released: "2026-11-05"
+repository-code: "https://github.com/vikramsankhala/claude-code-cli-companion"
+preferred-citation:
+  type: book
+  title: "Claude Code CLI: The Reference Book and Cheat Sheet"
+  edition: "2nd"
+  publisher:
+    name: "Solinexta AI Press"
+  year: 2026
+  authors:
+    - family-names: Sankhala
+      given-names: Vikram Singh

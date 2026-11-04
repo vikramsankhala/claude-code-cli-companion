@@ -1,0 +1,4 @@
+numpy>=1.26
+openai>=1.40
+mcp>=2
+pytest>=8

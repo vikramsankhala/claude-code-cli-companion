@@ -1,0 +1,10 @@
+# Project config for Codex (applies only when this project is trusted)
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+
+[mcp_servers.n8n]
+url = "http://localhost:5678/mcp-server/http"
+bearer_token_env_var = "N8N_MCP_TOKEN"

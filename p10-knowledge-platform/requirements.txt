@@ -1,0 +1,11 @@
+numpy
+openai
+pypdf
+python-docx
+fastapi
+python-multipart
+uvicorn
+mcp>=2
+pytest
+reportlab
+httpx

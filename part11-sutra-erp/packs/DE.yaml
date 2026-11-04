@@ -1,0 +1,9 @@
+country: DE
+currency: EUR
+fiscal_year_start: "01-01"
+tax:
+  regime: VAT
+  rates: {standard: 0.19, reduced: 0.07, zero: 0.0}
+privacy: {law: GDPR, data_residency: eu, pii_fields: [iban, phone, email, tax_id]}
+retention_years: {ledger: 10, invoices: 10}
+approvals: {payment_dual_control_above: 10000}

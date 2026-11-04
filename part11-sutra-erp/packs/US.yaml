@@ -1,0 +1,9 @@
+country: US
+currency: USD
+fiscal_year_start: "01-01"
+tax:
+  regime: SALES_TAX
+  rates: {standard: 0.0725, reduced: 0.0, zero: 0.0}   # state-level; California shown
+privacy: {law: "CCPA/CPRA", data_residency: us, pii_fields: [ssn, phone, email]}
+retention_years: {ledger: 7, invoices: 7}
+approvals: {payment_dual_control_above: 12000}

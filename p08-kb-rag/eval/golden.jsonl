@@ -1,0 +1,9 @@
+{"question": "How many days of annual leave do I get in India?", "expected_doc": "in/hr/leave-policy.md"}
+{"question": "Can I carry over unused leave days?", "expected_doc": "in/hr/leave-policy.md"}
+{"question": "Wie viele Urlaubstage habe ich?", "expected_doc": "de/hr/urlaubsrichtlinie.md"}
+{"question": "How long must a password be?", "expected_doc": "global/it/password-policy.md"}
+{"question": "What does VPN error 809 mean?", "expected_doc": "global/it/vpn-setup.md"}
+{"question": "Who approves international travel?", "expected_doc": "global/finance/travel-approval.md"}
+{"question": "What is the daily limit for meal expenses?", "expected_doc": "global/finance/expense-policy.md"}
+{"question": "How many days a week can I work from home?", "expected_doc": "global/hr/remote-work.md"}
+{"question": "Is MFA required for the VPN?", "expected_doc": "global/it/password-policy.md"}

@@ -1,0 +1,6 @@
+{
+  "priya":  {"regions": ["in", "eu", "us"], "depts": ["*"], "max_class": "restricted", "can_approve": true},
+  "arjun":  {"regions": ["in"], "depts": ["finance", "hr"], "max_class": "confidential"},
+  "lena":   {"regions": ["eu"], "depts": ["*"], "max_class": "confidential", "can_approve": true},
+  "mike":   {"regions": ["us"], "depts": ["it"], "max_class": "internal"}
+}

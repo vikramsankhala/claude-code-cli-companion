@@ -1,0 +1,22 @@
+{
+  "name": "Sutra nightly evals",
+  "nodes": [
+    {"parameters": {"rule": {"interval": [{"field": "cronExpression", "expression": "17 1 * * *"}]}},
+     "name": "Every night 01:17", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.2, "position": [0, 0]},
+    {"parameters": {"url": "http://localhost:8000/evals", "options": {}},
+     "name": "Run system evals", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [220, 0]},
+    {"parameters": {"conditions": {"options": {"caseSensitive": true, "typeValidation": "strict"},
+       "conditions": [{"leftValue": "={{ $json.pass }}", "rightValue": true,
+                        "operator": {"type": "boolean", "operation": "true", "singleValue": true}}],
+       "combinator": "and"}},
+     "name": "All gates pass?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [440, 0]},
+    {"parameters": {"command": "cd ~/sutra && claude -p \"The nightly evals failed: {{ JSON.stringify($json.gates) }}. Find the cause, write a short RCA to reports/eval-rca.md and propose a fix on a new branch. Do not change sutra/evals.py.\" --permission-mode acceptEdits --max-turns 25 --output-format json"},
+     "name": "Ask Claude Code for an RCA", "type": "n8n-nodes-base.executeCommand", "typeVersion": 1, "position": [660, 120]}
+  ],
+  "connections": {
+    "Every night 01:17": {"main": [[{"node": "Run system evals", "type": "main", "index": 0}]]},
+    "Run system evals": {"main": [[{"node": "All gates pass?", "type": "main", "index": 0}]]},
+    "All gates pass?": {"main": [[], [{"node": "Ask Claude Code for an RCA", "type": "main", "index": 0}]]}
+  },
+  "settings": {"executionOrder": "v1"}
+}

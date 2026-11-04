@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": ["Bash(python -m pytest *)", "Bash(python -m sutra.evals)", "Bash(git diff *)", "Bash(git status *)"],
+    "deny": ["Read(./.env)", "Read(./secrets/**)", "Bash(rm -rf *)", "Bash(sqlite3 * UPDATE *)", "Bash(sqlite3 * DELETE *)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "hooks": [{ "type": "command", "command": ".claude/hooks/run-tests.sh" }] }
+    ]
+  }
+}

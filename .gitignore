@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Local data the projects create when you run them
+*.sqlite
+*.sqlite-journal
+journal.sqlite
+p08-kb-rag/kb.sqlite
+p09-dms/stores/
+p10-knowledge-platform/data/
+p10-knowledge-platform/stores/
+p10-knowledge-platform/platform.sqlite
+p10-knowledge-platform/sources.json
+part11-sutra-erp/reports/
+
+# Secrets: never commit keys
+.env
+.env.*
+!.env.example
+*.pem
+secrets/
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db

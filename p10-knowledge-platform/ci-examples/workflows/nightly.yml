@@ -1,0 +1,16 @@
+name: Nightly knowledge operations
+on:
+  schedule: [{ cron: "30 20 * * *" }]   # 02:00 IST
+  workflow_dispatch:
+jobs:
+  nightly:
+    runs-on: [self-hosted, kmp]          # the runner that can reach the data stores
+    steps:
+      - uses: actions/checkout@v6
+      - run: python kmp_cli.py run && python kmp_cli.py nightly
+      - name: Draft articles for unanswered questions (Claude Code, headless)
+        run: |
+          claude --bare -p "/kb-gap-writer" \
+            --allowedTools "Read,Write,Bash(python kmp_cli.py search *)" \
+            --max-turns 30 --output-format json > gap-run.json
+        env: { ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}" }

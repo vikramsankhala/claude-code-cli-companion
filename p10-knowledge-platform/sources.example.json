@@ -1,0 +1,11 @@
+[
+  {"name": "crm-faq", "type": "sql", "region": "eu", "dept": "support",
+   "driver": "psycopg", "dsn_env": "CRM_DSN",
+   "query": "SELECT id, question, answer, updated_at FROM faq WHERE updated_at > %s ORDER BY updated_at",
+   "columns": {"id": "id", "title": "question", "body": "answer", "updated": "updated_at"},
+   "auto_approve": true, "classification": "internal"},
+  {"name": "it-wiki", "type": "http", "region": "us", "dept": "it",
+   "url": "https://wiki.example.com/api/v2/pages?space=IT", "token_env": "WIKI_TOKEN",
+   "items": "results", "next": "next", "since_param": "updated_since",
+   "fields": {"id": "id", "title": "title", "body": "body", "updated": "updated_at", "url": "link"}}
+]
