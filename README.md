@@ -8,20 +8,36 @@ Tested, runnable code for the hands-on projects in **_Claude Code CLI: The Refer
 
 📖 **Read the book:** [web edition](https://claude.ai/artifact/7ZmwKPUQgXabYtUXmVwEvf)
 
-Every project runs offline, with no model download and no API key, so you can learn the ideas first and connect a real model when you are ready.
+Every project runs offline, with no model download and no API key, so you can learn the ideas first and connect a real model when you are ready. Continuous integration runs every folder on Windows and Linux.
 
 ---
 
 ## What is inside
 
+**Projects from the book**
+
 | Folder | Book | What you build | Tests |
 | --- | --- | --- | --- |
-| [`p07-mini-coder`](p07-mini-coder) | Project P7, "How Coding Agents Work" | Your own coding agent on an open-source model (Ollama), with tools and safety rules | `python test_agent.py` |
+| [`sample-app`](sample-app) | Projects P1–P6 | The small practice repository the first six projects work on | 3 |
+| [`p01-project-memory`](p01-project-memory) | Project P1, Chapter 6 | A team-ready `CLAUDE.md`, path-scoped rules and a checker | 2 |
+| [`p02-permissions-baseline`](p02-permissions-baseline) | Project P2, Chapter 7 | A safe permissions baseline with its rationale | 3 |
+| [`p03-quality-gate-hooks`](p03-quality-gate-hooks) | Project P3, Chapter 8 | Format-on-edit, Bash guard, tests-on-stop and session-context hooks | 15 |
+| [`p04-skills-agents-kit`](p04-skills-agents-kit) | Project P4, Chapter 10 | Two skills, a subagent and a plugin manifest | 2 |
+| [`p05-ci-reviewer`](p05-ci-reviewer) | Project P5, Chapter 11 | A CI reviewer with a JSON Schema, a gate script and GitHub Actions workflows | 5 |
+| [`p06-parallel-agents`](p06-parallel-agents) | Project P6, Chapter 12 | Plan, split and run parallel agents in worktrees, with a plan checker | 4 |
+| [`p07-mini-coder`](p07-mini-coder) | Project P7, "How Coding Agents Work" | Your own coding agent on an open-source model (Ollama), with tools and safety rules | 2 scripts |
 | [`p08-kb-rag`](p08-kb-rag) | Project P8 | Multilingual enterprise knowledge base with hybrid RAG (BM25 + vectors + RRF), access groups and an MCP server | 9 |
 | [`p09-dms`](p09-dms) | Project P9 | Multinational document management: regional stores, versions, workflow, retention, legal hold, audit, API | 7 |
-| [`p10-knowledge-platform`](p10-knowledge-platform) | Project P10 (capstone) | P8 + P9 as one automated, multilingual knowledge platform with a job queue, connectors, MCP, hooks and a skill | 8 |
-| [`ch26-detagent`](ch26-detagent) | Chapter 26 | A deterministic agent: JSON Schema contract, policy in code, state machine, record-and-replay, hash-chained journal | 7 |
-| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 29–36) | **Sutra**, a next-generation ERP proof of concept: event-sourced ledger, edge alerts, MILP and QUBO optimisation, human-in-the-loop remediation, agent guardrails, statutory and concurrent audit, service desk, system evals | 15 + eval gates |
+| [`p10-knowledge-platform`](p10-knowledge-platform) | Project P10 (capstone) | P8 + P9 as one automated, multilingual knowledge platform | 8 |
+| [`ch26-detagent`](ch26-detagent) | Chapter 26 | A deterministic agent: schema contract, policy in code, state machine, record-and-replay, hash-chained journal | 7 |
+| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 29–36) | **Sutra**, a next-generation ERP proof of concept | 15 + eval gates |
+
+**Reference material**
+
+| Folder | Book | What it holds | Tests |
+| --- | --- | --- | --- |
+| [`templates`](templates) | Chapters 6–11, 16, 18 | Copy-ready `CLAUDE.md`, settings at three strictness levels, hooks, `.mcp.json`, a skill, a subagent, Codex configs, GitHub workflows and a dual-agent repository | 8 |
+| [`workbench`](workbench) | Part XII (Chapters 37–43) | Every Python package example from Chapters 38–39, and the six-week practice files (EMI calculator, PowerShell profile, network check, backup) | 27 |
 
 ## Quick start
 
@@ -42,6 +58,8 @@ git clone https://github.com/vikramsankhala/claude-code-cli-companion.git
 cd claude-code-cli-companion
 ./scripts/test-all.sh
 ```
+
+To test only some folders, name them: `.\scripts\test-all.ps1 p03-quality-gate-hooks workbench`.
 
 **One project at a time**
 

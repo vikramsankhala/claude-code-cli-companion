@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint)", "Bash(npm run test *)", "Bash(python -m pytest *)", "Bash(ruff check *)", "Bash(ruff format *)",
+      "Bash(git status *)", "Bash(git diff *)", "Bash(git log *)", "Bash(git switch *)", "Bash(git add *)", "Bash(git commit *)",
+      "Read(./docs/**)"
+    ],
+    "ask": ["Bash(git push *)", "Bash(npm install *)", "Bash(pip install *)", "Bash(python -m pip install *)"],
+    "deny": [
+      "Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)", "Edit(./secrets/**)",
+      "Bash(curl *)", "Bash(wget *)", "Bash(rm -rf *)", "Bash(git push --force *)"
+    ]
+  },
+  "env": { "PYTHONDONTWRITEBYTECODE": "1" },
+  "autoUpdatesChannel": "stable"
+}

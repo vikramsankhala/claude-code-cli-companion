@@ -1,0 +1,6 @@
+{
+  "name": "my-kit",
+  "version": "1.0.0",
+  "description": "PR summaries, release notes and a test-runner subagent (Project P4).",
+  "author": { "name": "Your Name" }
+}

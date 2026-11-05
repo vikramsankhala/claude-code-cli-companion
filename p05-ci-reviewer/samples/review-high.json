@@ -1,0 +1,4 @@
+{"type": "result", "subtype": "success", "result": "Review complete.", "session_id": "demo",
+ "structured_output": {"risk": "high", "summary": "The discount check was removed, so coupons above 100 percent produce negative totals.",
+  "findings": [{"file": "shop/pricing.py", "line": 12, "severity": "high", "issue": "Bounds check on percent removed",
+                "fix": "Restore the 0 to 100 check and add a test for 120 percent"}]}}

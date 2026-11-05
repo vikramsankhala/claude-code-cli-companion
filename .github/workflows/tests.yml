@@ -19,32 +19,56 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python: ["3.11", "3.13"]
-        project: [p07-mini-coder, p08-kb-rag, p09-dms, p10-knowledge-platform, ch26-detagent, part11-sutra-erp]
+        project: [sample-app, p01-project-memory, p02-permissions-baseline, p03-quality-gate-hooks, p04-skills-agents-kit,
+                  p05-ci-reviewer, p06-parallel-agents, p07-mini-coder, p08-kb-rag, p09-dms, p10-knowledge-platform,
+                  ch26-detagent, part11-sutra-erp, templates, workbench]
     defaults:
       run:
         working-directory: ${{ matrix.project }}
     env:
       KB_EMBEDDER: hash
       PYTHONUTF8: "1"
+      MPLBACKEND: Agg
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-          cache-dependency-path: ${{ matrix.project }}/requirements.txt
-      - run: python -m pip install -r requirements.txt
+          cache-dependency-path: ${{ matrix.project }}/requirements*.txt
+      - name: Install
+        shell: bash
+        run: |
+          if [ -f requirements-ci.txt ]; then python -m pip install -r requirements-ci.txt; else python -m pip install -r requirements.txt; fi
       - name: Run tests
         shell: bash
         run: |
           if [ "${{ matrix.project }}" = "p07-mini-coder" ]; then
             python test_agent.py && python test_agent_extended.py
+          elif [ "${{ matrix.project }}" = "workbench" ]; then
+            python -m pytest -q tests practice/fintech
           else
             python -m pytest -q
           fi
       - name: System eval gates
         if: matrix.project == 'part11-sutra-erp'
         run: python -m sutra.evals
+
+  powershell:
+    name: PowerShell scripts parse
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: pwsh
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Filter *.ps1 | ForEach-Object {
+            $t = $null; $e = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$t, [ref]$e) | Out-Null
+            if ($e.Count) { $bad++; Write-Host "FAIL $($_.FullName)"; $e | ForEach-Object { Write-Host "  $($_.Message)" } }
+            else { Write-Host "OK   $($_.Name)" }
+          }
+          exit $bad
 
   secrets:
     name: Secret scan

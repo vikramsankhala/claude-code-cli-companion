@@ -1,0 +1,27 @@
+# Copy to .github/workflows/claude-review.yml in your repository.
+# Runs the P5 reviewer on every pull request and fails the check when the risk is high.
+name: Claude PR review
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - name: Install Claude Code and the gate's dependency
+        run: |
+          curl -fsSL https://claude.ai/install.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          pip install jsonschema
+      - name: Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: bash p05-ci-reviewer/scripts/review.sh "${{ github.event.pull_request.number }}"

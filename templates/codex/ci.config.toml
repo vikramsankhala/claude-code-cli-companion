@@ -1,0 +1,5 @@
+# A profile for CI: save as ~/.codex/ci.config.toml and run `codex exec --profile ci ...`
+approval_policy = "never"
+sandbox_mode = "read-only"
+model_reasoning_effort = "high"
+web_search = "disabled"

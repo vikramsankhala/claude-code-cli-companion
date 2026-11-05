@@ -1,0 +1,23 @@
+# Lighter set for CI: everything the offline tests import (no browsers, no notebooks)
+pytest
+mcp>=2
+fastapi
+httpx
+pandas
+polars
+duckdb
+matplotlib
+plotly
+scikit-learn
+openpyxl
+python-docx
+python-pptx
+sympy
+statsmodels
+QuantLib
+rdkit
+pymupdf
+pydantic
+typer
+rich
+networkx

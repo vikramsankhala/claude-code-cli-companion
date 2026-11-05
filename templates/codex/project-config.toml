@@ -1,0 +1,6 @@
+# .codex/config.toml in a repository (loaded only once you trust the project)
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false

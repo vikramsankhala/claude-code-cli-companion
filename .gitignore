@@ -24,6 +24,7 @@ part11-sutra-erp/reports/
 !.env.example
 *.pem
 secrets/
+!sample-app/secrets/
 
 # Editors and OS
 .vscode/*
@@ -31,3 +32,6 @@ secrets/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Tool caches
+.ruff_cache/

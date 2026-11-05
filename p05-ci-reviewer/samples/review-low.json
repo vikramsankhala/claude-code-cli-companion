@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "result": "Review complete.", "session_id": "demo",
+ "structured_output": {"risk": "low", "summary": "Adds a reduced GST test; no behaviour change.", "findings": []}}
