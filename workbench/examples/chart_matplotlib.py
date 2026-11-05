@@ -1,4 +1,4 @@
-"""Chapter 39 example: chart_matplotlib.py. Run: python chart_matplotlib.py"""
+"""Chapter 40 example: chart_matplotlib.py. Run: python chart_matplotlib.py"""
 import matplotlib.pyplot as plt
 import pandas as pd
 df = pd.read_csv("sales.csv")

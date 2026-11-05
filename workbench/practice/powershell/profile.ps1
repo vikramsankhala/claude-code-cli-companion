@@ -1,4 +1,4 @@
-# Chapter 41 and Chapter 43, day 6: one-word shortcuts for your PowerShell profile.
+# Chapter 42 and Chapter 44, day 6: one-word shortcuts for your PowerShell profile.
 # Open your profile with: notepad $PROFILE   then paste what you need and open a new window.
 # Change the paths if your folders live elsewhere.
 

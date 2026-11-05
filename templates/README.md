@@ -12,6 +12,7 @@ Every configuration file the book teaches, ready to copy and edit. All of them a
 | `codex/` | User `config.toml`, project `.codex/config.toml`, a CI profile | Chapter 16 |
 | `github/` | `@claude` workflow (`claude-code-action`) and Codex PR review (`codex-action`) | Chapters 11, 16 |
 | `dual-agent/` | One repository set up for Claude Code and Codex together | Chapter 18 |
+| `fde/` | Deployment brief, evaluation sheet, weekly status, handover checklist and field note for forward deployed engineers | Chapter 29 |
 
 **Where each file goes**
 

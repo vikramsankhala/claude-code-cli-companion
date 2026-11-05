@@ -1,4 +1,4 @@
-"""Chapter 38 example: graph_deps.py. Run: python graph_deps.py"""
+"""Chapter 39 example: graph_deps.py. Run: python graph_deps.py"""
 import networkx as nx
 g = nx.DiGraph([("Python","NumPy"),("NumPy","pandas"),
                 ("NumPy","SciPy"),("pandas","Modelling")])

@@ -1,4 +1,4 @@
-"""Chapter 39 example: capm_statsmodels.py. Run: python capm_statsmodels.py"""
+"""Chapter 40 example: capm_statsmodels.py. Run: python capm_statsmodels.py"""
 import numpy as np, pandas as pd
 import statsmodels.formula.api as smf
 rng = np.random.default_rng(7)

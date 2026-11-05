@@ -1,4 +1,4 @@
-"""Chapter 39 example: ask_claude.py. Run: python ask_claude.py"""
+"""Chapter 40 example: ask_claude.py. Run: python ask_claude.py"""
 import anthropic
 client = anthropic.Anthropic()   # reads ANTHROPIC_API_KEY
 msg = client.messages.create(

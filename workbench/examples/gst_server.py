@@ -1,4 +1,4 @@
-"""Chapter 39 example. Register with: claude mcp add gst -- python gst_server.py"""
+"""Chapter 40 example. Register with: claude mcp add gst -- python gst_server.py"""
 from mcp.server.mcpserver import MCPServer
 server = MCPServer("Finance tools")
 

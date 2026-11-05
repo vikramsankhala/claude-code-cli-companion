@@ -1,6 +1,6 @@
 # Part XI · Sutra: a next-generation ERP proof of concept
 
-Book: Part XI, Chapters 29 to 36.
+Book: Part XI, Chapters 30 to 37.
 
 | Module | File | What it proves |
 | --- | --- | --- |

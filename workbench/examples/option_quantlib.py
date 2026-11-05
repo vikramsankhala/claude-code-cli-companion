@@ -1,4 +1,4 @@
-"""Chapter 39 example: option_quantlib.py. Run: python option_quantlib.py"""
+"""Chapter 40 example: option_quantlib.py. Run: python option_quantlib.py"""
 import QuantLib as ql
 today = ql.Date(5, 11, 2026)
 ql.Settings.instance().evaluationDate = today

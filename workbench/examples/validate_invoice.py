@@ -1,4 +1,4 @@
-"""Chapter 38 example: validate_invoice.py. Run: python validate_invoice.py"""
+"""Chapter 39 example: validate_invoice.py. Run: python validate_invoice.py"""
 from pydantic import BaseModel
 class Invoice(BaseModel):
     number: str

@@ -1,4 +1,4 @@
-# Chapter 42 and Chapter 43, week 6 review: copy work to a backup drive, skipping rebuildable folders.
+# Chapter 43 and Chapter 44, week 6 review: copy work to a backup drive, skipping rebuildable folders.
 # Change $Dest to your USB drive or second disk. Schedule nightly with:
 #   schtasks /create /sc daily /st 21:00 /tn "WorkBackup" /tr "powershell -NoProfile -ExecutionPolicy Bypass -File $HOME\work\scripts\backup.ps1"
 param(

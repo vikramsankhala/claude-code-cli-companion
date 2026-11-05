@@ -1,4 +1,4 @@
-# Chapter 39 work environment (all four tiers) plus the Chapter 38 packages used by the examples
+# Chapter 40 work environment (all four tiers) plus the Chapter 39 packages used by the examples
 ruff
 pytest
 ipython

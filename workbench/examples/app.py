@@ -1,4 +1,4 @@
-"""Chapter 39 example. Run: uvicorn app:app --reload, then open http://127.0.0.1:8000/docs"""
+"""Chapter 40 example. Run: uvicorn app:app --reload, then open http://127.0.0.1:8000/docs"""
 from fastapi import FastAPI
 from pydantic import BaseModel
 app = FastAPI()

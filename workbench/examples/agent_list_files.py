@@ -1,4 +1,4 @@
-"""Chapter 39 example: agent_list_files.py. Run: python agent_list_files.py"""
+"""Chapter 40 example: agent_list_files.py. Run: python agent_list_files.py"""
 import asyncio
 from claude_agent_sdk import query, ClaudeAgentOptions, ResultMessage
 

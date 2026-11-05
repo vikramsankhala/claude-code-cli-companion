@@ -6,7 +6,7 @@ labels: bug
 
 **Project folder** (for example `part11-sutra-erp`):
 
-**Book chapter or step** (for example "Chapter 32, Step 4"):
+**Book chapter or step** (for example "Chapter 33, Step 4"):
 
 **What you ran**
 

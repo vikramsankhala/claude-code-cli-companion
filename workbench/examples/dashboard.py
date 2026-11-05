@@ -1,4 +1,4 @@
-"""Chapter 39 example. Run: streamlit run dashboard.py"""
+"""Chapter 40 example. Run: streamlit run dashboard.py"""
 import pandas as pd
 import streamlit as st
 

@@ -1,4 +1,4 @@
-"""Chapter 38 example: crawl_page.py. Run: python crawl_page.py"""
+"""Chapter 39 example: crawl_page.py. Run: python crawl_page.py"""
 import asyncio
 from crawl4ai import AsyncWebCrawler
 

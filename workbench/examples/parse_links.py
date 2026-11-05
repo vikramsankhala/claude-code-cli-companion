@@ -1,4 +1,4 @@
-"""Chapter 38 example: parse_links.py. Run: python parse_links.py"""
+"""Chapter 39 example: parse_links.py. Run: python parse_links.py"""
 import requests
 from bs4 import BeautifulSoup
 html = requests.get("https://example.com", timeout=20).text

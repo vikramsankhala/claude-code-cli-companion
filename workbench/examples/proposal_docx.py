@@ -1,4 +1,4 @@
-"""Chapter 39 example: proposal_docx.py. Run: python proposal_docx.py"""
+"""Chapter 40 example: proposal_docx.py. Run: python proposal_docx.py"""
 from docx import Document
 doc = Document()
 doc.add_heading("Programme proposal", level=1)

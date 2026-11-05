@@ -1,4 +1,4 @@
-"""Chapter 39 example: sklearn_baseline.py. Run: python sklearn_baseline.py"""
+"""Chapter 40 example: sklearn_baseline.py. Run: python sklearn_baseline.py"""
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

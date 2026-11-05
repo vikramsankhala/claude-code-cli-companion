@@ -35,3 +35,6 @@ Thumbs.db
 
 # Tool caches
 .ruff_cache/
+
+# Probe results are machine-specific
+free-tier/nvidia/working-models.txt

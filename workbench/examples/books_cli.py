@@ -1,4 +1,4 @@
-"""Chapter 38 example. Run: python books_cli.py --n 3"""
+"""Chapter 39 example. Run: python books_cli.py --n 3"""
 import typer
 from rich.console import Console
 from rich.table import Table

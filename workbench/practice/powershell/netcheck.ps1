@@ -1,4 +1,4 @@
-# Chapter 43, week 5 review: a one-screen network check, layer by layer (Chapter 42).
+# Chapter 44, week 5 review: a one-screen network check, layer by layer (Chapter 43).
 # Run: .\netcheck.ps1   or add the netcheck function from profile.ps1
 $ErrorActionPreference = "SilentlyContinue"
 

@@ -1,14 +1,14 @@
 # Workbench · Python and the terminal (Part XII)
 
-Book: Part XII, Chapters 37 to 43.
+Book: Part XII, Chapters 38 to 44.
 
 | Folder | What it holds | Book |
 | --- | --- | --- |
-| `examples/` | Every package example from Chapters 38 and 39 as a runnable script, plus `sales.csv` | Chapters 38, 39 |
-| `practice/` | Starter and reference files for the six weeks of daily practice | Chapter 43 |
+| `examples/` | Every package example from Chapters 39 and 40 as a runnable script, plus `sales.csv` | Chapters 38, 39 |
+| `practice/` | Starter and reference files for the six weeks of daily practice | Chapter 44 |
 | `tests/` | Runs every offline example and checks the outputs the book quotes | |
 
-## Set up the work environment (Chapter 39)
+## Set up the work environment (Chapter 40)
 
 ```powershell
 cd workbench
@@ -17,7 +17,7 @@ uv venv --python 3.13 --seed
 uv pip install -r requirements.txt
 ```
 
-`requirements.txt` is the full Chapter 39 environment. `requirements-ci.txt` is a lighter set, without browsers or notebooks, that is enough for the tests.
+`requirements.txt` is the full Chapter 40 environment. `requirements-ci.txt` is a lighter set, without browsers or notebooks, that is enough for the tests.
 
 ## Run the examples
 

@@ -56,3 +56,10 @@ def test_dual_agent_layout():
     assert (d / "CLAUDE.md").read_text().splitlines()[0] == "@AGENTS.md"
     assert tomllib.loads((d / ".codex/config.toml").read_text())["sandbox_mode"] == "workspace-write"
     assert "n8n" in json.loads((d / ".mcp.json").read_text())["mcpServers"]
+
+
+def test_fde_templates_complete():
+    names = {p.name for p in (T / "fde").glob("*.md")}
+    assert names == {"DEPLOYMENT-BRIEF.md", "EVALUATION-SHEET.md", "WEEKLY-STATUS.md", "HANDOVER-CHECKLIST.md", "FIELD-NOTE.md"}
+    assert "Success measures" in (T / "fde" / "DEPLOYMENT-BRIEF.md").read_text(encoding="utf-8")
+    assert "access granted to the FDE removed" in (T / "fde" / "HANDOVER-CHECKLIST.md").read_text(encoding="utf-8")

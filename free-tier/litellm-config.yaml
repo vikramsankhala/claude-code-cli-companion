@@ -1,0 +1,38 @@
+# One OpenAI-compatible endpoint (http://localhost:4000) over several free tiers. Teaching and prototyping only.
+# Start:  pip install "litellm[proxy]"   then   litellm --config litellm-config.yaml
+# Replace each <model-id> with a model your account can call; check the provider's catalogue.
+model_list:
+  - model_name: free-chat
+    litellm_params:
+      model: nvidia_nim/nvidia/nemotron-3.5-bolt-e4b
+      api_key: os.environ/NVIDIA_API_KEY
+      rpm: 35                          # stay under NVIDIA's shared ~40 requests a minute
+  - model_name: free-chat
+    litellm_params:
+      model: openrouter/<model-id>:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: free-chat
+    litellm_params:
+      model: groq/<model-id>
+      api_key: os.environ/GROQ_API_KEY
+  - model_name: free-chat
+    litellm_params:
+      model: gemini/<model-id>
+      api_key: os.environ/GEMINI_API_KEY
+  - model_name: free-chat
+    litellm_params:
+      model: mistral/<model-id>
+      api_key: os.environ/MISTRAL_API_KEY
+  - model_name: free-embed
+    litellm_params:
+      model: nvidia_nim/nvidia/llama-3.2-nv-embedqa-1b-v1
+      api_key: os.environ/NVIDIA_API_KEY
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 2
+  allowed_fails: 3                     # rest a provider for a while after repeated errors
+  cooldown_time: 60
+
+litellm_settings:
+  drop_params: true                    # ignore parameters a provider does not support

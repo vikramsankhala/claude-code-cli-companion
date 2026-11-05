@@ -1,4 +1,4 @@
-"""Chapter 43, weeks 3 and 4: the EMI calculator as it stands after the exercises.
+"""Chapter 44, weeks 3 and 4: the EMI calculator as it stands after the exercises.
 
 Day 12 writes emi(); day 18 finds the zero-rate bug; day 17 adds the amortisation schedule.
 Try the exercises yourself first, then compare with this file."""

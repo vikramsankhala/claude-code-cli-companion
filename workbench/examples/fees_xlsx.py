@@ -1,4 +1,4 @@
-"""Chapter 39 example: fees_xlsx.py. Run: python fees_xlsx.py"""
+"""Chapter 40 example: fees_xlsx.py. Run: python fees_xlsx.py"""
 from openpyxl import Workbook
 from openpyxl.styles import Font
 wb = Workbook(); ws = wb.active; ws.title = "Fees"

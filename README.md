@@ -30,14 +30,15 @@ Every project runs offline, with no model download and no API key, so you can le
 | [`p09-dms`](p09-dms) | Project P9 | Multinational document management: regional stores, versions, workflow, retention, legal hold, audit, API | 7 |
 | [`p10-knowledge-platform`](p10-knowledge-platform) | Project P10 (capstone) | P8 + P9 as one automated, multilingual knowledge platform | 8 |
 | [`ch26-detagent`](ch26-detagent) | Chapter 26 | A deterministic agent: schema contract, policy in code, state machine, record-and-replay, hash-chained journal | 7 |
-| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 29–36) | **Sutra**, a next-generation ERP proof of concept | 15 + eval gates |
+| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 30–37) | **Sutra**, a next-generation ERP proof of concept | 15 + eval gates |
 
 **Reference material**
 
 | Folder | Book | What it holds | Tests |
 | --- | --- | --- | --- |
-| [`templates`](templates) | Chapters 6–11, 16, 18 | Copy-ready `CLAUDE.md`, settings at three strictness levels, hooks, `.mcp.json`, a skill, a subagent, Codex configs, GitHub workflows and a dual-agent repository | 8 |
-| [`workbench`](workbench) | Part XII (Chapters 37–43) | Every Python package example from Chapters 38–39, and the six-week practice files (EMI calculator, PowerShell profile, network check, backup) | 27 |
+| [`templates`](templates) | Chapters 6–11, 16, 18, 29 | Copy-ready `CLAUDE.md`, settings at three strictness levels, hooks, `.mcp.json`, a skill, a subagent, Codex configs, GitHub workflows, a dual-agent repository and five forward-deployed-engineer templates | 9 |
+| [`free-tier`](free-tier) | Chapter 22 | NVIDIA API catalogue labs (first call, model comparison, embeddings, tools, safety), a free-model LiteLLM gateway, key checks, and an educator guide with lesson plans, student set-up and an acceptable-use template. **Teaching and prototyping only** | 10 |
+| [`workbench`](workbench) | Part XII (Chapters 38–44) | Every Python package example from Chapters 39–40, and the six-week practice files (EMI calculator, PowerShell profile, network check, backup) | 27 |
 
 ## Quick start
 
