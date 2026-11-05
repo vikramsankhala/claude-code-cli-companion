@@ -38,7 +38,7 @@ def ingest(root: str, db, embedder) -> dict:
     for path in sorted(root_path.rglob("*")):
         if path.suffix.lower() not in {".md", ".txt"} or not path.is_file():
             continue
-        rel = str(path.relative_to(root_path))
+        rel = path.relative_to(root_path).as_posix()        # forward slashes on Windows too
         seen.add(rel)
         text = path.read_text(encoding="utf-8", errors="replace")
         digest = hashlib.sha256(text.encode()).hexdigest()
@@ -48,7 +48,7 @@ def ingest(root: str, db, embedder) -> dict:
             continue
         if old:
             store.delete_doc(db, rel)
-        dept = str(Path(rel).parent) if "/" in rel else "general"  # folder = access group, e.g. in/hr
+        dept = rel.rsplit("/", 1)[0] if "/" in rel else "general"  # folder = access group, e.g. in/hr
         first = text.lstrip().splitlines()[0] if text.strip() else rel
         title = first.lstrip("# ").strip() if first.startswith("#") else path.stem
         pieces = chunk_markdown(text, title)
