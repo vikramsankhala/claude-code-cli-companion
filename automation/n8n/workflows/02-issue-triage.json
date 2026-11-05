@@ -1,0 +1,272 @@
+{
+  "name": "02 Issue triage (Patterns D + A: local model labels, Codex locates, a person decides)",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "owner": {
+          "__rl": true,
+          "mode": "name",
+          "value": "your-org"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "shop"
+        },
+        "events": [
+          "issues"
+        ],
+        "options": {}
+      },
+      "name": "New issue",
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "replace-on-import"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.body.action }}",
+              "rightValue": "opened",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Only newly opened",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You triage GitHub issues for the shop repository. Reply with JSON only: {\"label\": \"bug\" | \"feature\" | \"question\" | \"docs\", \"duplicate_of\": null or an issue number, \"summary\": \"one sentence\"}.\n\nTitle: {{ $json.body.issue.title }}\nBody: {{ $json.body.issue.body }}",
+        "options": {
+          "systemMessage": "Be terse. Never invent issue numbers."
+        }
+      },
+      "name": "Triage agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": "mistral-small3.2",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "name": "Local Mistral (Ollama)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        440,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// The local model was asked for JSON; accept it, or fall back to a safe default.\nlet t;\ntry { t = JSON.parse(String($json.output).replace(/^```(json)?|```$/g, '').trim()); }\ncatch (e) { t = { label: 'question', duplicate_of: null, summary: String($json.output).slice(0, 200) }; }\nconst allowed = ['bug', 'feature', 'question', 'docs'];\nconst issue = $('New issue').item.json.body.issue;\nreturn { json: {\n  number: issue.number, title: issue.title, url: issue.html_url,\n  label: allowed.includes(t.label) ? t.label : 'question',\n  duplicate_of: t.duplicate_of ?? null, summary: t.summary || '',\n} };"
+      },
+      "name": "Parse triage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.label }}",
+              "rightValue": "bug",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Is it a bug?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=cd \"$HOME/repos/shop\" && codex exec --sandbox read-only --skip-git-repo-check \"Issue #{{ $json.number }} is a bug report. Name the two files most likely involved and why, in under 80 words. Do not change anything.\""
+      },
+      "name": "Codex locates the code (read-only)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#eng-oncall"
+        },
+        "text": "=*Bug #{{ $('Parse triage').item.json.number }}*: {{ $('Parse triage').item.json.summary }}\nLikely files: {{ $json.stdout }}\n<{{ $('Parse triage').item.json.url }}|Open issue> · <vscode://anthropic.claude-code/open?prompt={{ encodeURIComponent('Investigate issue #' + $('Parse triage').item.json.number + '. Plan first; do not edit until I approve.') }}|Open in Claude Code>",
+        "otherOptions": {}
+      },
+      "name": "Post bug to on-call",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1320,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#triage"
+        },
+        "text": "=#{{ $json.number }} looks like *{{ $json.label }}*{{ $json.duplicate_of ? ' (possible duplicate of #' + $json.duplicate_of + ')' : '' }}: {{ $json.summary }}",
+        "otherOptions": {}
+      },
+      "name": "Post to triage channel",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        120
+      ]
+    }
+  ],
+  "connections": {
+    "New issue": {
+      "main": [
+        [
+          {
+            "node": "Only newly opened",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only newly opened": {
+      "main": [
+        [
+          {
+            "node": "Triage agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Local Mistral (Ollama)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Triage agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Triage agent": {
+      "main": [
+        [
+          {
+            "node": "Parse triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse triage": {
+      "main": [
+        [
+          {
+            "node": "Is it a bug?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is it a bug?": {
+      "main": [
+        [
+          {
+            "node": "Codex locates the code (read-only)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to triage channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Codex locates the code (read-only)": {
+      "main": [
+        [
+          {
+            "node": "Post bug to on-call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

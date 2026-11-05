@@ -1,0 +1,14 @@
+# Ruff: one tool for lint, import order and formatting. Start strict on a new repository.
+target-version = "py311"
+line-length = 100
+extend-exclude = ["semgrep/tests", "tests"]   # rule test data is bad on purpose; tests/ checks this kit and is deleted on copy
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "S", "RUF"]
+ignore = ["S101"]           # assert is how pytest works
+
+[lint.per-file-ignores]
+"tests/**" = ["S", "B011"]
+
+[format]
+quote-style = "double"

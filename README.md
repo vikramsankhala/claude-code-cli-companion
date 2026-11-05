@@ -1,6 +1,7 @@
 # Claude Code CLI: Companion Code
 
 [![Tests](https://github.com/vikramsankhala/claude-code-cli-companion/actions/workflows/tests.yml/badge.svg)](https://github.com/vikramsankhala/claude-code-cli-companion/actions/workflows/tests.yml)
+[![Lint](https://github.com/vikramsankhala/claude-code-cli-companion/actions/workflows/lint.yml/badge.svg)](https://github.com/vikramsankhala/claude-code-cli-companion/actions/workflows/lint.yml)
 [![Code licence: MIT](https://img.shields.io/badge/code-MIT-0E7C7B.svg)](LICENSE)
 [![Book licence: CC BY-NC-SA 4.0](https://img.shields.io/badge/book-CC%20BY--NC--SA%204.0-1F3A5F.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -8,7 +9,7 @@ Tested, runnable code for the hands-on projects in **_Claude Code CLI: The Refer
 
 📖 **Read the book:** [web edition](https://claude.ai/artifact/7ZmwKPUQgXabYtUXmVwEvf)
 
-Every project runs offline, with no model download and no API key, so you can learn the ideas first and connect a real model when you are ready. Continuous integration runs every folder on Windows and Linux.
+Every project runs offline, with no model download and no API key, so you can learn the ideas first and connect a real model when you are ready. Continuous integration runs every folder on Windows and Linux, lints with pre-commit and Semgrep, and runs Sutra against real PostgreSQL and MQTT services.
 
 ---
 
@@ -30,14 +31,22 @@ Every project runs offline, with no model download and no API key, so you can le
 | [`p09-dms`](p09-dms) | Project P9 | Multinational document management: regional stores, versions, workflow, retention, legal hold, audit, API | 7 |
 | [`p10-knowledge-platform`](p10-knowledge-platform) | Project P10 (capstone) | P8 + P9 as one automated, multilingual knowledge platform | 8 |
 | [`ch26-detagent`](ch26-detagent) | Chapter 26 | A deterministic agent: schema contract, policy in code, state machine, record-and-replay, hash-chained journal | 7 |
-| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 30–37) | **Sutra**, a next-generation ERP proof of concept | 15 + eval gates |
+| [`part11-sutra-erp`](part11-sutra-erp) | Part XI (Chapters 30–37) | **Sutra**, a next-generation ERP proof of concept, with a working Qiskit QAOA adapter, an MQTT edge simulator and a Docker database (TimescaleDB + pgvector, Mosquitto) | 28 + 2 integration + eval gates |
+
+**Hands-on labs and automation**
+
+| Folder | Book | What it holds | Tests |
+| --- | --- | --- | --- |
+| [`labs`](labs) | Part X, Guided Demos D1–D8 | A practice app with three planted bugs, a guide per demo, the D7 hook (bash and Python), the D6 cost-logging parser and a D8 MCP server | 22 |
+| [`automation/n8n`](automation/n8n) | Chapters 19–20 | Four importable n8n workflows, one per integration pattern (CI summary, issue triage, morning brief, agent tools over MCP), and start scripts | 23 |
 
 **Reference material**
 
 | Folder | Book | What it holds | Tests |
 | --- | --- | --- | --- |
 | [`templates`](templates) | Chapters 6–11, 16, 18, 29 | Copy-ready `CLAUDE.md`, settings at three strictness levels, hooks, `.mcp.json`, a skill, a subagent, Codex configs, GitHub workflows, a dual-agent repository and five forward-deployed-engineer templates | 9 |
-| [`free-tier`](free-tier) | Chapter 22 | NVIDIA API catalogue labs (first call, model comparison, embeddings, tools, safety), a free-model LiteLLM gateway, key checks, and an educator guide with lesson plans, student set-up and an acceptable-use template. **Teaching and prototyping only** | 10 |
+| [`free-tier`](free-tier) | Chapter 22 | NVIDIA API catalogue labs (first call, model comparison, embeddings, tools, safety), the **free-tier gateway kit** (a LiteLLM gateway across NVIDIA, OpenRouter, Groq, Gemini and Mistral free tiers), key checks, and an educator guide with lesson plans, student set-up and an acceptable-use template. **Teaching and prototyping only** | 10 |
+| [`golden-path`](golden-path) | Chapter 24 | Repository templates for the 5-engineer golden path: pre-commit, ruff, Semgrep rules, Renovate, CODEOWNERS, CI, agent settings. **Applied to this repository** | 8 |
 | [`workbench`](workbench) | Part XII (Chapters 38–44) | Every Python package example from Chapters 39–40, and the six-week practice files (EMI calculator, PowerShell profile, network check, backup) | 27 |
 
 ## Quick start
@@ -61,6 +70,14 @@ cd claude-code-cli-companion
 ```
 
 To test only some folders, name them: `.\scripts\test-all.ps1 p03-quality-gate-hooks workbench`.
+
+**Lint like CI does** (the golden path, applied here):
+
+```bash
+pip install pre-commit
+pre-commit install          # checks run before every commit from now on
+pre-commit run --all-files
+```
 
 **One project at a time**
 

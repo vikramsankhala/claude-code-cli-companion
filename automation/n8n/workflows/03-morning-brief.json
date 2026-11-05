@@ -1,0 +1,160 @@
+{
+  "name": "03 Morning brief (Pattern D: fully local, no shell)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "23 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "name": "Weekdays 08:23",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/your-org/shop/pulls?state=open&per_page=30",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "options": {}
+      },
+      "name": "Open pull requests",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const prs = $input.all().map(i => i.json);\nconst days = d => Math.round((Date.now() - new Date(d)) / 864e5);\nreturn [{ json: { prs: prs.map(p => ({ n: p.number, title: p.title, author: p.user.login, age_days: days(p.created_at), draft: p.draft })) } }];"
+      },
+      "name": "Keep the useful fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a morning brief for the team lead in at most 8 bullet points: what is stale (older than 3 days), what is blocked, what to review first. Data: {{ JSON.stringify($json.prs) }}",
+        "options": {
+          "systemMessage": "British spelling. No greetings. Use PR numbers like #12."
+        }
+      },
+      "name": "Brief writer",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": "qwen3:8b",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "name": "Local model (Ollama)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        660,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "n8n@localhost",
+        "toEmail": "lead@example.com",
+        "subject": "=Morning brief {{ $now.toFormat('dd LLL') }}",
+        "emailFormat": "text",
+        "text": "={{ $json.output }}",
+        "options": {}
+      },
+      "name": "Email the brief",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Weekdays 08:23": {
+      "main": [
+        [
+          {
+            "node": "Open pull requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Open pull requests": {
+      "main": [
+        [
+          {
+            "node": "Keep the useful fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep the useful fields": {
+      "main": [
+        [
+          {
+            "node": "Brief writer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local model (Ollama)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brief writer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brief writer": {
+      "main": [
+        [
+          {
+            "node": "Email the brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

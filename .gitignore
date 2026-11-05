@@ -38,3 +38,7 @@ Thumbs.db
 
 # Probe results are machine-specific
 free-tier/nvidia/working-models.txt
+
+# Files the labs and extras write when you run them
+labs/d06-pipe-and-parse/runs.csv
+gateway.log

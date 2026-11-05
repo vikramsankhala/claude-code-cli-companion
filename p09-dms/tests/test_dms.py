@@ -1,5 +1,4 @@
 """End-to-end tests for the multinational DMS. Run: python -m pytest -q"""
-import os
 import sys
 from pathlib import Path
 
@@ -113,8 +112,8 @@ def test_rest_api(env, monkeypatch):
     monkeypatch.setenv("DMS_ROOT", str(tmp / "stores"))
     monkeypatch.setenv("DMS_USERS", str(ROOT / "users.json"))
     sys.modules.pop("api", None)
-    from fastapi.testclient import TestClient
     import api
+    from fastapi.testclient import TestClient
     c = TestClient(api.app)
     with open(files / "vpn.md", "rb") as fh:
         r = c.post("/documents", headers={"X-User": "arjun"},

@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -112,7 +112,7 @@ def test_pii_redaction():
 def test_statutory_and_concurrent_audit():
     s = EventStore()
     led = Ledger(s, "t", PACKS["IN"])
-    sat = datetime(2026, 11, 7, 23, 30, tzinfo=timezone.utc).isoformat()
+    sat = datetime(2026, 11, 7, 23, 30, tzinfo=UTC).isoformat()
     led.post([{"acct": "6100", "dr": 600_000}, {"acct": "1000", "cr": 600_000}], "year-end adj", "kiran", at=sat)
     s.append("t", "pay:1", "PaymentProposed", {"ref": "P1"}, "meena", "human")
     s.append("t", "pay:1", "PaymentApproved", {"ref": "P1"}, "meena", "human")

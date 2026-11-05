@@ -15,6 +15,7 @@ from pathlib import Path
 from dms.config import CLASSIFICATION, REGIONS
 from dms.extract import extract_text
 from dms.service import DMS, User, load_users
+
 from kb import store as kbstore
 from kb.answer import SYSTEM, build_prompt
 from kb.embed import get_embedder

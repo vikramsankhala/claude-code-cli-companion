@@ -1,0 +1,14 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "Steps, expected and actual result" }
+    validations: { required: true }
+  - type: input
+    id: version
+    attributes: { label: Version or commit }
+  - type: textarea
+    id: logs
+    attributes: { label: Logs, description: "Remove keys, tokens and personal data first", render: shell }

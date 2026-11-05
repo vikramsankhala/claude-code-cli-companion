@@ -3,9 +3,8 @@ Register: claude mcp add --transport stdio kmp --env KMP_USER=priya -- python /p
 import os
 from pathlib import Path
 
-from mcp.server.mcpserver import MCPServer
-
 from kmp.core import Platform
+from mcp.server.mcpserver import MCPServer
 
 ROOT = os.getenv("KMP_ROOT", str(Path(__file__).resolve().parent / "data"))
 server = MCPServer("knowledge-platform")

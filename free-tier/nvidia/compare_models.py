@@ -16,7 +16,7 @@ for m in MODELS:
     print(f"asking {m} ...", file=sys.stderr, flush=True)
     t0 = time.perf_counter()
     try:
-        r = with_backoff(lambda: c.chat.completions.create(model=m, temperature=0, max_tokens=MAX_TOKENS, timeout=180,
+        r = with_backoff(lambda m=m: c.chat.completions.create(model=m, temperature=0, max_tokens=MAX_TOKENS, timeout=180,
                                                            messages=[{"role": "user", "content": PROMPT}]))
     except SystemExit as e:          # one unavailable model should not stop the comparison
         rows.append((m, 0.0, 0, str(e)[:90]))

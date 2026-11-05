@@ -68,8 +68,8 @@ def test_every_example_compiles():
 def test_fastapi_app(work):
     pytest.importorskip("fastapi")
     sys.path.insert(0, str(work))
-    from fastapi.testclient import TestClient
     import app
+    from fastapi.testclient import TestClient
     assert TestClient(app.app).post("/ask", json={"text": "hi"}).json() == {"answer": "You asked: hi"}
 
 

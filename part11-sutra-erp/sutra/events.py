@@ -2,7 +2,7 @@
 import hashlib
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 GENESIS = "0" * 64
 SCHEMA = """
@@ -22,7 +22,7 @@ def canon(o) -> str:
 
 
 def utcnow() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")
 
 
 class EventStore:

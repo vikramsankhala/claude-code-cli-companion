@@ -1,7 +1,7 @@
 """Document lifecycle: register, version, approve, retrieve, search, retain, audit."""
 import json
 import shutil
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from .config import CLASSIFICATION, DEFAULT_RETENTION_YEARS, REGIONS, RETENTION_YEARS, STATUSES
@@ -71,7 +71,7 @@ class DMS:
                      (doc_id, v, digest, file.name, size, user.name, note, ts))
         row = s.db.execute("SELECT * FROM documents WHERE id=?", (doc_id,)).fetchone()
         years = RETENTION_YEARS.get((row["region"], row["doc_type"]), DEFAULT_RETENTION_YEARS)
-        until = (datetime.now(timezone.utc) + timedelta(days=365 * years)).strftime("%Y-%m-%d")
+        until = (datetime.now(UTC) + timedelta(days=365 * years)).strftime("%Y-%m-%d")
         s.db.execute("UPDATE documents SET current_version=?, updated_utc=?, retention_until=? WHERE id=?",
                      (v, ts, until, doc_id))
         # the search index always holds the current version only
@@ -98,7 +98,7 @@ class DMS:
 
     def purge_expired(self, actor="retention-job", today=None) -> list[str]:
         """Delete documents past retention, except those under legal hold."""
-        today = today or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = today or datetime.now(UTC).strftime("%Y-%m-%d")
         purged = []
         for s in self.stores.values():
             for row in s.db.execute("SELECT id FROM documents WHERE retention_until < ? AND legal_hold = 0",

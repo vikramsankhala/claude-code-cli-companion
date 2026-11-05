@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": ["Bash(python -m pytest:*)", "Bash(pre-commit run:*)", "Bash(ruff check:*)", "Bash(ruff format:*)", "Bash(git diff:*)", "Bash(git status)"],
+    "ask": ["Bash(git push:*)", "Bash(pip install:*)"],
+    "deny": ["Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)", "Bash(curl:*)", "Bash(rm -rf:*)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "ruff check --fix --quiet . || true", "timeout": 30 }]
+      }
+    ]
+  }
+}

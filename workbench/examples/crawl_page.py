@@ -1,6 +1,8 @@
 """Chapter 39 example: crawl_page.py. Run: python crawl_page.py"""
 import asyncio
+
 from crawl4ai import AsyncWebCrawler
+
 
 async def main():
     async with AsyncWebCrawler() as crawler:

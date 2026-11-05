@@ -1,0 +1,32 @@
+rules:
+  - id: hardcoded-api-key
+    message: An API key is written in code. Read it from an environment variable instead.
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern-either:
+          - pattern: $X = "$KEY"
+          - pattern: $F(..., api_key="$KEY", ...)
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: ^(nvapi-|sk-|sk-ant-|ghp_|xox[bp]-|AKIA)[A-Za-z0-9_\-]{8,}
+  - id: subprocess-shell-true
+    message: shell=True runs the string through a shell; pass a list of arguments instead.
+    severity: ERROR
+    languages: [python]
+    pattern: subprocess.$FN(..., shell=True, ...)
+  - id: tls-verify-disabled
+    message: TLS verification is turned off. Fix the CA bundle instead of disabling checks.
+    severity: ERROR
+    languages: [python]
+    pattern-either:
+      - pattern: requests.$FN(..., verify=False, ...)
+      - pattern: httpx.$FN(..., verify=False, ...)
+      - pattern: httpx.Client(..., verify=False, ...)
+  - id: eval-of-model-output
+    message: Never eval or exec text that came from a model or a user.
+    severity: ERROR
+    languages: [python]
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)

@@ -11,7 +11,7 @@ declare -A CMD=(
 declare -A REQ=( [workbench]="requirements-ci.txt" )
 ALL=(sample-app p01-project-memory p02-permissions-baseline p03-quality-gate-hooks p04-skills-agents-kit
      p05-ci-reviewer p06-parallel-agents p07-mini-coder p08-kb-rag p09-dms p10-knowledge-platform
-     ch26-detagent part11-sutra-erp templates workbench free-tier)
+     ch26-detagent part11-sutra-erp templates workbench free-tier labs automation/n8n golden-path)
 projects=("${@:-${ALL[@]}}")
 failed=()
 for p in "${projects[@]}"; do

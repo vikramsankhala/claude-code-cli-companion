@@ -1,0 +1,83 @@
+{
+  "name": "04 Agent tools over MCP (Pattern B: Claude Code and Codex call n8n)",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "bearerAuth",
+        "path": "shop-tools"
+      },
+      "name": "MCP Server Trigger",
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "replace-on-import"
+    },
+    {
+      "parameters": {
+        "name": "create_ticket",
+        "description": "Create a support ticket. Input JSON: {\"title\": string (8+ chars), \"priority\": \"low\"|\"medium\"|\"high\", \"details\": string}. Returns the ticket id.",
+        "language": "javaScript",
+        "jsCode": "// A pre-approved business action for agents: validate, then create a ticket. Agents never get raw API access.\nconst q = typeof query === 'string' ? JSON.parse(query) : query;\nconst title = String(q.title || '').trim();\nconst priority = ['low', 'medium', 'high'].includes(q.priority) ? q.priority : 'medium';\nif (title.length < 8) return 'Refused: the title must be at least 8 characters.';\nif (/password|api[_-]?key|secret/i.test(String(q.details || ''))) return 'Refused: never put credentials in a ticket.';\nconst id = 'TCK-' + Date.now().toString().slice(-6);\nreturn JSON.stringify({ id, title, priority, status: 'open' });"
+      },
+      "name": "create_ticket",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        -120,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "Look up a Shopkeeper order by id, for example ORD-1001.",
+        "url": "http://127.0.0.1:8765/orders/{order_id}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "order_id",
+              "description": "The order id, e.g. ORD-1001",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "name": "order_status",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        120,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "create_ticket": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "order_status": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

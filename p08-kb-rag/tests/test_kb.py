@@ -1,5 +1,4 @@
 """Offline tests: no model download needed (KB_EMBEDDER=hash)."""
-import json
 import os
 import shutil
 import subprocess
@@ -13,11 +12,11 @@ os.environ["KB_EMBEDDER"] = "hash"
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from kb import store                      # noqa: E402
-from kb.embed import HashEmbedder         # noqa: E402
+from kb import store  # noqa: E402
+from kb.answer import build_prompt  # noqa: E402
+from kb.embed import HashEmbedder  # noqa: E402
 from kb.ingest import chunk_markdown, ingest  # noqa: E402
 from kb.search import hybrid_search, rrf  # noqa: E402
-from kb.answer import build_prompt        # noqa: E402
 
 EMB = HashEmbedder()
 

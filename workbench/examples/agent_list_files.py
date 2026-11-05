@@ -1,6 +1,8 @@
 """Chapter 40 example: agent_list_files.py. Run: python agent_list_files.py"""
 import asyncio
-from claude_agent_sdk import query, ClaudeAgentOptions, ResultMessage
+
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
+
 
 async def main():
     opts = ClaudeAgentOptions(

@@ -1,0 +1,3 @@
+# Only for the database checks against PostgreSQL (docker compose up db). Qiskit and paho-mqtt are in requirements.txt.
+-r requirements.txt
+psycopg[binary]>=3.2

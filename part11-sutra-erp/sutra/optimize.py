@@ -92,15 +92,13 @@ class DWaveLeap(QuantumProvider):
     name = "dwave-leap"          # pip install dwave-ocean-sdk; needs DWAVE_API_TOKEN
 
     def solve(self, Q, n):
-        from dwave.system import DWaveSampler, EmbeddingComposite   # noqa: imported only when configured
+        from dwave.system import DWaveSampler, EmbeddingComposite  # noqa: PLC0415 (imported only when configured)
         ss = EmbeddingComposite(DWaveSampler()).sample_qubo(Q, num_reads=200)
         best = ss.first
         return [best.sample[i] for i in range(n)], best.energy
 
 
-class QiskitQAOA(QuantumProvider):
-    name = "ibm-qiskit"          # pip install qiskit qiskit-optimization qiskit-ibm-runtime; IBM Quantum token
-    # Converts the QUBO to a QuadraticProgram and runs QAOA via qiskit-ibm-runtime Sampler. Omitted for brevity.
+# QiskitQAOA (gate-model QAOA on Qiskit, simulator or IBM hardware) lives in sutra/qaoa.py; see __getattr__ below.
 
 
 class Braket(QuantumProvider):
@@ -114,3 +112,10 @@ def solve_qubo(Q, n, provider: QuantumProvider | None = None):
         except Exception:
             pass                 # fall back, and the caller logs that the fallback was used
     return anneal(Q, n) + ("local-anneal",)
+
+
+def __getattr__(name):           # `from sutra.optimize import QiskitQAOA` still works, without importing Qiskit eagerly
+    if name == "QiskitQAOA":
+        from .qaoa import QiskitQAOA
+        return QiskitQAOA
+    raise AttributeError(name)

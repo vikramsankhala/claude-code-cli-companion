@@ -1,0 +1,6 @@
+# Who must review what. The last matching line wins. Replace the handles with your own.
+*                       @your-org/maintainers
+/.github/               @your-org/platform
+/.claude/  /.codex/     @your-org/platform
+AGENTS.md  CLAUDE.md    @your-org/platform
+/semgrep/               @your-org/security

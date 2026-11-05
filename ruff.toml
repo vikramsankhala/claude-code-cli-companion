@@ -1,0 +1,24 @@
+# Ruff for the whole repository (golden path, Chapter 24). Run: ruff check . && ruff format --check .
+target-version = "py311"
+line-length = 120
+extend-exclude = [".venv", "**/.venv", "**/node_modules"]
+
+[lint]
+# Errors that break code, plus import order, modern syntax and common bug patterns.
+select = ["E4", "E7", "E9", "F", "I", "UP", "B"]
+ignore = [
+  "B008",   # FastAPI's Depends()/Query() in defaults is idiomatic
+  "E731",   # small lambdas are fine in teaching code
+  # Compact teaching style the book's listings use on purpose (short lines fit the printed page):
+  "E701", "E702",   # several short statements on one line
+  "E741",           # l, I, O as names in tiny maths helpers
+  "B904",           # FastAPI handlers re-raise HTTPException without `from`
+  "B905",           # zip() over lists the code has just built with equal length
+]
+
+[lint.per-file-ignores]
+"**/tests/**" = ["B011"]
+"workbench/examples/**" = ["E402", "B018"]   # standalone scripts that import as they explain
+
+[lint.isort]
+known-first-party = ["kb", "sutra", "shopkeeper", "detagent", "common"]

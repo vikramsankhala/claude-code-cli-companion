@@ -1,5 +1,6 @@
 """Chapter 40 example: outcomes_pptx.py. Run: python outcomes_pptx.py"""
 from pptx import Presentation
+
 prs = Presentation()
 s = prs.slides.add_slide(prs.slide_layouts[1])
 s.shapes.title.text = "Three outcomes this quarter"

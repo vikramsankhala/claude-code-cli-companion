@@ -1,0 +1,40 @@
+# Sutra extras: the production-shaped database and an MQTT broker, on your laptop (Chapters 31-32).
+#   docker compose up -d --wait        start both and wait until healthy
+#   python schema/apply.py --check     the schema was loaded on first start
+#   docker compose down -v             stop and delete the data
+# Ports are bound to 127.0.0.1 only. The password is for local learning; change it before anything else.
+name: sutra
+services:
+  db:
+    image: timescale/timescaledb-ha:pg16        # PostgreSQL 16 + TimescaleDB + pgvector in one image
+    environment:
+      POSTGRES_USER: sutra
+      POSTGRES_PASSWORD: ${SUTRA_DB_PASSWORD:-sutra}
+      POSTGRES_DB: sutra
+      PGPASSWORD: ${SUTRA_DB_PASSWORD:-sutra}     # lets the healthcheck use psql over TCP
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ./schema/sutra.sql:/docker-entrypoint-initdb.d/10-sutra.sql:ro
+      - sutra-pg:/home/postgres/pgdata
+    healthcheck:
+      # Over TCP on purpose: while the schema loads, PostgreSQL listens only on its socket, so this
+      # turns healthy only after the first-start scripts have finished and the server has restarted.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U sutra -d sutra && psql -h 127.0.0.1 -U sutra -d sutra -tAc \"SELECT 1 FROM pg_tables WHERE tablename = 'telemetry'\" | grep -q 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+  mqtt:
+    image: eclipse-mosquitto:2
+    ports:
+      - "127.0.0.1:1883:1883"
+    volumes:
+      - ./docker/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-t", "sutra/health", "-m", "ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  sutra-pg:

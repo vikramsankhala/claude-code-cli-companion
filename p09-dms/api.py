@@ -4,10 +4,9 @@ import os
 import tempfile
 from pathlib import Path
 
+from dms.service import DMS, AccessDenied, load_users
 from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
-
-from dms.service import DMS, AccessDenied, load_users
 
 app = FastAPI(title="Document Management API")
 dms = DMS(os.getenv("DMS_ROOT", "stores"))

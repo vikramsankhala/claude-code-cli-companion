@@ -1,7 +1,7 @@
 """A durable job queue in SQLite: every automated step is a job that can retry and be audited."""
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS jobs (id INTEGER PRIMARY KEY, kind TEXT, payload TEXT,
@@ -18,7 +18,7 @@ MAX_ATTEMPTS = 3
 
 
 def now():
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class Queue:

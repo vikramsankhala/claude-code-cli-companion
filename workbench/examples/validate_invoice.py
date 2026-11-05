@@ -1,5 +1,7 @@
 """Chapter 39 example: validate_invoice.py. Run: python validate_invoice.py"""
 from pydantic import BaseModel
+
+
 class Invoice(BaseModel):
     number: str
     amount_inr: float

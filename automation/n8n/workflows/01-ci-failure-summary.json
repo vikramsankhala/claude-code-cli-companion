@@ -1,0 +1,172 @@
+{
+  "name": "01 CI failure summary (Pattern A: n8n runs Claude Code)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "41 7 * * 1-5"
+            }
+          ]
+        }
+      },
+      "name": "Every weekday 07:41",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "command": "cd \"$HOME/repos/shop\" && claude -p \"Summarise yesterday's failed CI runs (use gh run list --status failure) and propose one fix for each. Plain text, under 200 words.\" --permission-mode plan --allowedTools \"Bash(gh run list:*)\" \"Bash(gh run view:*)\" --max-turns 15 --output-format json"
+      },
+      "name": "Claude Code, read-only",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse `claude -p --output-format json` from the Execute Command node.\nconst raw = ($json.stdout || '').trim();\nlet doc;\ntry { doc = JSON.parse(raw); } catch (e) { doc = { is_error: true, result: 'Could not parse Claude output: ' + raw.slice(0, 300) }; }\nreturn { json: {\n  ok: !doc.is_error && $json.exitCode === 0,\n  summary: doc.result || '',\n  session_id: doc.session_id || '',\n  turns: doc.num_turns || 0,\n  cost_usd: Number(doc.total_cost_usd || 0).toFixed(4),\n} };"
+      },
+      "name": "Parse result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Run succeeded?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#eng-ci"
+        },
+        "text": "=*CI overnight*\n{{ $json.summary }}\n_{{ $json.turns }} turns · ${{ $json.cost_usd }}_",
+        "otherOptions": {}
+      },
+      "name": "Post summary",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        960,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#eng-ci"
+        },
+        "text": "=The CI summary run failed. Session {{ $json.session_id }}: {{ $json.summary }}",
+        "otherOptions": {}
+      },
+      "name": "Alert: agent run failed",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        960,
+        100
+      ]
+    }
+  ],
+  "connections": {
+    "Every weekday 07:41": {
+      "main": [
+        [
+          {
+            "node": "Claude Code, read-only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Code, read-only": {
+      "main": [
+        [
+          {
+            "node": "Parse result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse result": {
+      "main": [
+        [
+          {
+            "node": "Run succeeded?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run succeeded?": {
+      "main": [
+        [
+          {
+            "node": "Post summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alert: agent run failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

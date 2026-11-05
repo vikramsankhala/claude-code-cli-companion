@@ -1,5 +1,4 @@
 import pytest
-
 from emi import amortisation_schedule, emi
 
 

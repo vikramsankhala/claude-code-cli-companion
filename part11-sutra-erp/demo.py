@@ -3,10 +3,10 @@ import os
 
 os.environ.setdefault("KB_EMBEDDER", "hash")
 
-from sutra.audit import ConcurrentAudit, StatutoryAudit   # noqa: E402
-from sutra.optimize import maintenance_qubo, solve_qubo, decode, production_plan   # noqa: E402
-from sutra.platform import Sutra                            # noqa: E402
-from sutra.synth import telemetry                           # noqa: E402
+from sutra.audit import ConcurrentAudit, StatutoryAudit  # noqa: E402
+from sutra.optimize import decode, maintenance_qubo, production_plan, solve_qubo  # noqa: E402
+from sutra.platform import Sutra  # noqa: E402
+from sutra.synth import telemetry  # noqa: E402
 
 s = Sutra()
 print("1  Business as usual: a sale and a purchase post with GST")

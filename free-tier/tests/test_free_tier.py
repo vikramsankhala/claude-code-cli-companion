@@ -7,7 +7,7 @@ import pytest
 import yaml
 
 sys.path.insert(0, str(Path(__file__).parent))
-from fake_server import Fake   # noqa: E402
+from fake_server import Fake  # noqa: E402
 
 HERE = Path(__file__).resolve().parents[1]
 NV = HERE / "nvidia"

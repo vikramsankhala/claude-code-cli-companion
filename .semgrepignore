@@ -1,0 +1,4 @@
+# Test data that exists to trigger the rules
+golden-path/semgrep/tests/
+.venv/
+**/.venv/

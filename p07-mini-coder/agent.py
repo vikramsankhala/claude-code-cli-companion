@@ -87,7 +87,7 @@ def run_command(command: str) -> str:
     if not command.startswith(SAFE_PREFIXES) and not confirm(f"Run `{command}`?"):
         return "User declined the command."
     try:
-        r = subprocess.run(command, shell=True, cwd=ROOT, capture_output=True,
+        r = subprocess.run(command, shell=True, cwd=ROOT, capture_output=True,  # nosemgrep: subprocess-shell-true (an agent shell tool, behind BLOCKED and confirm)
                            text=True, timeout=120)
     except subprocess.TimeoutExpired:
         return "Command timed out after 120 s."
